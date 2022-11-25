@@ -122,9 +122,6 @@ Puedes ver todos los metodos de la API descargando la [colección de POSTMAN](ht
 
 <p align="right">(<a href="#readme-top">volver a arriba</a>)</p>
 
-
-<p align="right">(<a href="#readme-top">volver a arriba</a>)</p>
-
 <!-- CONTACT -->
 
 ## Contacto Linkedin
