@@ -42,18 +42,21 @@ function VistaHistorial() {
             <th>Nombre</th>
             <th>Usuario</th>
             <th>IMPORTE</th>
+            <th>Cantidad</th>
             <th>FECHA</th>
             <th>HORARIO</th>
           </tr>
 
           {ordenes.map((orden) => {
             const { nombre, precio } = orden.cartas[0];
+            console.log(orden);
             return (
               <tr>
                 <td>{orden.idpedido}</td>
                 <td>{nombre}</td>
                 <td>{orden.ordenfinalizada.email}</td>
                 <td>{precio}</td>
+                <td>{orden.cantidad}</td>
 
                 <td>{orden.createdAt.slice(0, 10)}hs</td>
                 <td>{orden.createdAt.slice(11, 19)}hs</td>

@@ -13,11 +13,12 @@
 @import "./components/pagoTarjeta";
 @import "./components/pagoEfectivo";
 @import "./components/vistaAdminUsuarios";
-@import './components/vistaHistorial';
+@import "./components/vistaHistorial";
 @import "./components/contacto";
+@import "./components/vistaComentarios";
 
 //common
-@import './common/TableCarritoDeCompras';
+@import "./common/TableCarritoDeCompras";
 @import "./common/grillaDeProductos";
 @import "./common/productosDetallados";
-@import "./components/vistaNosotros"; 
+@import "./components/vistaNosotros";

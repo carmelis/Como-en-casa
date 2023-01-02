@@ -11,12 +11,16 @@ Pedido.init(
       type: Sequelize.STRING,
     },
 
-    // idcomprado: {
-    //   type: Sequelize.ARRAY(INTEGER),
-    // },
+    comentado: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
     idpedido: {
       type: Sequelize.INTEGER,
       defaultValue: 0,
+    },
+    cantidad: {
+      type: Sequelize.INTEGER,
     },
   },
   { sequelize: db, modelName: "pedido" }

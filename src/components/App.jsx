@@ -5,6 +5,7 @@ import Inicio from "./Inicio";
 import Productos from "./Productos";
 import Footer from "./Footer";
 import VistaHistorial from "./VistaHistorial";
+import VistaComentarios from "./VistaComentarios";
 import { Route, Routes } from "react-router";
 import ProductoDetallado from "../common/ProductoDetallado";
 import { useEffect } from "react";
@@ -20,9 +21,8 @@ import { useSelector } from "react-redux";
 import Contacto from "./Contacto";
 import VistaNosotros from "./VistaNosotros";
 
-
 function App() {
-  const [products, setProducts]=useState([])
+  const [products, setProducts] = useState([]);
   const user = useSelector((state) => state.user);
 
   //Pedido para obtener todos los productos
@@ -52,19 +52,19 @@ function App() {
         <Route path="/" element={<Inicio products={products} />}></Route>
         <Route path="login" element={<Login />}></Route>
         <Route path="historial" element={<VistaHistorial />}></Route>
+        <Route path="comentarios" element={<VistaComentarios />}></Route>
         <Route path="registro" element={<Registro />}></Route>
         <Route path="contacto" element={<Contacto />}></Route>
         <Route path="carrito" element={<CarritoDeCompras />}></Route>
         <Route path="pagoTarjeta" element={<Pago />}></Route>
         <Route path="pagoEfectivo" element={<PagoEfectivo />}></Route>
-
         <Route path="productos" element={<Productos />}></Route>
-
-        /*<Route
+        /*
+        <Route
           path="productos"
           element={<Productos products={products} />}
-        ></Route>*/
-
+        ></Route>
+        */
         <Route path="/productos/:id" element={<ProductoDetallado />}></Route>
         {user.superAdmin ? (
           <Route path="/admin/users" element={<VistaAdminUsuarios />}></Route>

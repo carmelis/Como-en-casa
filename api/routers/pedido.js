@@ -11,9 +11,17 @@ router.post("/", validateAuth, PedidoController.crearpedido);
 
 router.get("/", validateAuth, PedidoController.getAllpedidos);
 
-// me trae el pedido de un usuario
+// me trae los pedidos de un usuario
 
 router.get("/:email", validateAuth, PedidoController.getpedidouser);
+
+// me trae los pedidos de un usuario que no califico
+
+router.get(
+  "/comentado/:email",
+  validateAuth,
+  PedidoController.getpedidousercomentado
+);
 
 router.delete("/delete/:id", validateAuth, PedidoController.deletepedido);
 //me edita el campo comprado a true

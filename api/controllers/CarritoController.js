@@ -3,7 +3,7 @@ const { Carrito, Users, Cartas } = require("../models");
 //crear carrito
 const postcarrito = async (req, res) => {
   try {
-    const { email, idcarta, detalle } = req.body;
+    const { email, idcarta, detalle, restar } = req.body;
 
     //encontrar el usuario
     const usuario = await Users.findOne({
@@ -13,13 +13,7 @@ const postcarrito = async (req, res) => {
     const carta = await Cartas.findOne({
       where: { id: idcarta },
     });
-
-    const carrito = await Carrito.create({ detalle: detalle });
-    // establecer las relaciones
-
-    await carrito.setAuthor(usuario);
-
-    await carrito.addCartas(carta);
+    //encuentro los productos del usuario
     const usuariocarrito = await Carrito.findAll({
       where: {
         authorId: usuario.id,
@@ -27,17 +21,28 @@ const postcarrito = async (req, res) => {
       include: [{ model: Users, as: "author" }, "cartas"],
     });
     let resultado = false;
-
+    //me fijo si ese producto esta y si esta le sumo uno a la cantidad
     usuariocarrito.forEach((persona) => {
-      if (persona.cartas[0].id == idcarta) {
+      if (persona.cartas[0].id == idcarta && !restar) {
         resultado = true;
-        carrito.cantidad = carrito.cantidad + 1;
-        carrito.save();
+        persona.cantidad = persona.cantidad + 1;
+        persona.save();
+      }
+      //si en restar aparece en el body, le resto uno en cantidad
+      if (persona.cartas[0].id == idcarta && restar) {
+        resultado = true;
+        persona.cantidad = persona.cantidad - 1;
+        persona.save();
       }
     });
-    console.log("resultado", resultado);
-
-    res.send(carrito);
+    //sino esta ese producto en el usuario, lo creo con sus relaciones
+    if (resultado == false) {
+      const carrito = await Carrito.create({ detalle: detalle });
+      await carrito.setAuthor(usuario);
+      await carrito.addCartas(carta);
+      res.send(carrito);
+    }
+    res.send("listo");
   } catch (error) {
     console.log(error);
   }

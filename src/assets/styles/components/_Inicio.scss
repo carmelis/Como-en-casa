@@ -1,5 +1,6 @@
 .inicio_container {
   height: 100%;
+  margin-top: 5vh;
   a {
     text-decoration: none;
   }
@@ -9,14 +10,15 @@
   }
 }
 .contentItemCarrusel {
-  height: 300px;
+  height: 40vh;
   overflow: hidden;
-  width: 95%;
-  padding: 20px 0px 0px 90px;
+  width: 100%;
 }
 .itemCarrusel {
+  width: 80%;
   height: 100%;
   position: relative;
+  margin-left: 10%;
 }
 .imagenCarrusel {
   height: 100%;
@@ -31,4 +33,16 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px;
+  svg {
+    font-size: 2em;
+    color: white;
+  }
+
+  svg:hover {
+    color: red;
+  }
+}
+
+.titulo-populares {
+  margin-top: 5vh;
 }

@@ -19,6 +19,6 @@ app.use((err, req, res, next) => {
   res.status(500).send(err.message);
 });
 
-db.sync({ force: false}).then(() => {
+db.sync({ force: false }).then(() => {
   app.listen(3001, () => console.log("Servidor escuchando en el puerto 3001"));
 });

@@ -4,11 +4,12 @@ const enviarEmail = require("../config/nodemailer");
 // me crea un producto en el pedido
 const crearpedido = async (req, res) => {
   const { email, detalle } = req.body;
-
+  console.log("pedido", req.body);
   try {
     const user = await Users.findOne({
       where: { email },
     });
+    console.log("user", user);
 
     const usuariocarrito = await Carrito.findAll({
       where: {
@@ -19,12 +20,15 @@ const crearpedido = async (req, res) => {
     const pedidos = await Pedido.findAll({
       include: [{ model: Users, as: "ordenfinalizada" }, "cartas"],
     });
-
+    console.log("usuariocarrito", usuariocarrito);
     for (let i = 0; i < usuariocarrito.length; i++) {
-      if (pedidos[1]) {
+      if (pedidos[0]) {
+        /*pedidos[1]*/
+        console.log("hola pedido", pedidos);
         let pedido = await Pedido.create({
           detalle: detalle,
           idpedido: pedidos[pedidos.length - 1].idpedido + 1,
+          cantidad: usuariocarrito[i].dataValues.cantidad,
         });
 
         await pedido.setOrdenfinalizada(user);
@@ -32,16 +36,18 @@ const crearpedido = async (req, res) => {
 
         //
       } else {
+        console.log("hola no pedido");
         let pedido = await Pedido.create({
           detalle: detalle,
           idpedido: 1,
+          cantidad: usuariocarrito[i].dataValues.cantidad,
         });
 
         await pedido.setOrdenfinalizada(user);
         await pedido.addCartas(usuariocarrito[i].dataValues.cartas[0]);
       }
     }
-    enviarEmail(email);
+    // enviarEmail(email);
     //solucion1
     ////////////////////////
     // let pedidos = [];
@@ -92,6 +98,30 @@ const getpedidouser = async (req, res) => {
       },
       include: [{ model: Users, as: "ordenfinalizada" }, "cartas"],
     });
+    console.log("user2", usuariopedido[0]);
+    res.send(usuariopedido);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//me trae los pedidos no comentados
+const getpedidousercomentado = async (req, res) => {
+  const email = req.params.email;
+
+  try {
+    const user = await Users.findOne({
+      where: { email },
+    });
+
+    const usuariopedido = await Pedido.findAll({
+      where: {
+        ordenfinalizadaId: user.id,
+        comentado: false,
+      },
+      include: [{ model: Users, as: "ordenfinalizada" }, "cartas"],
+    });
+    console.log("user2", usuariopedido[0]);
     res.send(usuariopedido);
   } catch (error) {
     console.log(error);
@@ -110,5 +140,6 @@ module.exports = {
   crearpedido,
   getAllpedidos,
   getpedidouser,
+  getpedidousercomentado,
   deletepedido,
 };

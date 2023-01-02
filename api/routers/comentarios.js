@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { Comentarios, Cartas, Users } = require("../models");
+const { Comentarios, Cartas, Users, Pedido } = require("../models");
 
 //agregar comentario
 router.post("/", async (req, res) => {
   try {
-    const { comentarios, idcarta, puntaje, email } = req.body;
+    const { comentarios, idcarta, puntaje, email, idpedido } = req.body;
     //encuentro el id del producto
     const carta = await Cartas.findOne({
       where: { id: idcarta },
@@ -26,6 +26,11 @@ router.post("/", async (req, res) => {
     const comentariofinal = await Comentarios.create({ comentarios, puntaje });
     await comentariofinal.setReview(carta);
     await comentariofinal.addUsers(user);
+    //Paso a true el producto comentado
+
+    const pedido = await Pedido.findByPk(idpedido);
+    pedido.update({ comentado: true });
+
     res.send(comentariofinal);
   } catch (error) {
     console.log(error);

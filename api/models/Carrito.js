@@ -14,7 +14,7 @@ Carrito.init(
     },
     cantidad: {
       type: Sequelize.INTEGER,
-      defaultValue: 0,
+      defaultValue: 1,
     },
   },
   { sequelize: db, modelName: "carrito" }
