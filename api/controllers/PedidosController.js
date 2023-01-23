@@ -4,7 +4,6 @@ const enviarEmail = require("../config/nodemailer");
 // me crea un producto en el pedido
 const crearpedido = async (req, res) => {
   const { email, detalle } = req.body;
-  console.log("pedido", req.body);
   try {
     const user = await Users.findOne({
       where: { email },
@@ -17,6 +16,7 @@ const crearpedido = async (req, res) => {
       },
       include: [{ model: Users, as: "author" }, "cartas"],
     });
+    
     const pedidos = await Pedido.findAll({
       include: [{ model: Users, as: "ordenfinalizada" }, "cartas"],
     });

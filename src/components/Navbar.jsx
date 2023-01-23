@@ -85,7 +85,10 @@ function Navbar() {
                   </a>
                   <ul>
                     <li>
-                      <Link to="historial">Historial</Link>
+                      <Link to="historial">Historial de ordenes</Link>
+                    </li>
+                    <li>
+                      <Link to="comentarios">Comentarios</Link>
                     </li>
                     <li>
                       <Link onClick={handlerLogOut} to="/">Log Out</Link>

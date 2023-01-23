@@ -27,12 +27,14 @@ const postcarrito = async (req, res) => {
         resultado = true;
         persona.cantidad = persona.cantidad + 1;
         persona.save();
+        return res.send(persona)
       }
       //si en restar aparece en el body, le resto uno en cantidad
       if (persona.cartas[0].id == idcarta && restar) {
         resultado = true;
         persona.cantidad = persona.cantidad - 1;
         persona.save();
+        return res.send(persona)
       }
     });
     //sino esta ese producto en el usuario, lo creo con sus relaciones
@@ -42,7 +44,7 @@ const postcarrito = async (req, res) => {
       await carrito.addCartas(carta);
       res.send(carrito);
     }
-    res.send("listo");
+    res.send(usuariocarrito);
   } catch (error) {
     console.log(error);
   }
@@ -51,7 +53,10 @@ const postcarrito = async (req, res) => {
 //traer carrito
 const getallcarrito = async (req, res) => {
   Carrito.findAll({ include: [{ model: Users, as: "author" }, "cartas"] })
-    .then((carritos) => res.status(200).send(carritos))
+    .then((carritos) => {
+      carritos.sort((a,b) => a.id-b.id) 
+      res.status(200).send(carritos)
+    })
     .catch((err) => res.status(400).send(err));
 };
 //traer carrito de un usuario
@@ -68,7 +73,7 @@ const getcarritouser = async (req, res) => {
       },
       include: [{ model: Users, as: "author" }, "cartas"],
     });
-
+    usuariocarrito.sort((a,b) => a.id-b.id)
     res.send(usuariocarrito);
   } catch (error) {
     console.log(error);

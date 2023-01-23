@@ -13,7 +13,7 @@ export const carritoProducto = createAsyncThunk("OBTENER_CARRITO", async (email)
 });
 
 const carritoReducer = createReducer(initialState, {
-  [carritoProducto.fulfilled]: (state, action) => action.payload
+  [carritoProducto.fulfilled]: (state, action) => action.payload,
 });
 
 export default carritoReducer;

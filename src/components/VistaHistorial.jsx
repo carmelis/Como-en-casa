@@ -49,7 +49,6 @@ function VistaHistorial() {
 
           {ordenes.map((orden) => {
             const { nombre, precio } = orden.cartas[0];
-            console.log(orden);
             return (
               <tr>
                 <td>{orden.idpedido}</td>

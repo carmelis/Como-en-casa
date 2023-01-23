@@ -1,4 +1,5 @@
 const express = require("express");
+const { NUMBER } = require("sequelize");
 const router = express.Router();
 const { Comentarios, Cartas, Users, Pedido } = require("../models");
 
@@ -12,7 +13,9 @@ router.post("/", async (req, res) => {
     });
     // edito el puntaje del producto
     carta.contador++;
-    carta.puntaje = (carta.puntaje + req.body.puntaje) / carta.contador;
+    console.log("carta", carta);    
+    console.log("roto", req.body.puntaje);
+    carta.puntaje = ((Number(carta.puntaje) + Number(req.body.puntaje)) / Number(carta.contador));
     carta.save();
 
     //encuentro el usuario

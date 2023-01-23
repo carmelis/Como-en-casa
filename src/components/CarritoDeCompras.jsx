@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { userLogin } from "../state/user";
-import { carritoProducto } from "../state/carrito";
+import { carritoProducto, totalProducto } from "../state/carrito";
 import TableCarritoDeCompras from "../common/TableCarritoDeCompras";
 
 function CarritoDeCompras() {
@@ -13,6 +13,11 @@ function CarritoDeCompras() {
   const carrito = useSelector((state) => state.carrito);
   const dispatch = useDispatch();
   const [productoEliminado, setProductoEliminado] = useState("");
+  const [cambio, setCambio] = useState(0);
+
+  const setL = (language) => {
+    setCambio(language);
+  };
 
   // Pedio para eliminar un producto por medio de un click
   const handleDeleteProducto = (id) => {
@@ -32,13 +37,15 @@ function CarritoDeCompras() {
   //Pedido para mostrar los productos añadidos al carrito
   useEffect(() => {
     obtenerCarrito();
-  }, [productoEliminado]);
+  }, [productoEliminado, cambio]);
 
   //Funcion para mostrar el valor total a pagar
   const totalApagar = () => {
     let total = 0;
     carrito.forEach((producto) => {
-      total = total + producto.cartas[0].precio;
+      const cant = producto.cantidad;
+      const precio = producto.cartas[0].precio;
+      total += cant * precio;
     });
     return total;
   };
@@ -71,6 +78,7 @@ function CarritoDeCompras() {
                   key={index}
                   producto={producto}
                   handleDeleteProducto={handleDeleteProducto}
+                  setL={setL}
                 />
               ))}
             </tbody>
